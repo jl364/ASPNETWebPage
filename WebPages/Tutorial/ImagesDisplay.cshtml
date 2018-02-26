@@ -1,0 +1,34 @@
+﻿@{  
+    var imagePath = "";
+    if (Request["photoChoice"] != null)
+    {
+        imagePath = @"images\" + Request["photoChoice"];
+    }
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Display Image on the Fly</title>
+</head>
+<body>
+    <h1>Displaying an Image On the Fly</h1>
+    <form method="post" action="">
+        <div>
+            I want to see:
+            <select name="photoChoice">
+                <option value="PeopleFemale100x150.jpg">Photo Female</option>
+                <option value="PeopleMale150x200.jpg">Photo Male</option>
+                <option value="PeoplePlaceholder.jpg">Photo Placeholder</option>
+            </select>
+            &nbsp;
+            <input type="submit" value="Submit" />
+        </div>
+        <div style="padding:10px;">
+            @if (imagePath != "")
+            {
+                <img src="@imagePath" alt="Sample Image" />
+            }
+        </div>
+    </form>
+</body>
+</html>

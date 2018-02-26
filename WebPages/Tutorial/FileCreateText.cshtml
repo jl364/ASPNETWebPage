@@ -1,0 +1,70 @@
+﻿@{
+    var result = "";
+    if (IsPost)
+    {
+        var firstName = Request["FirstName"];
+        var lastName = Request["LastName"];
+        var email = Request["Email"];
+
+        var userData = firstName + "," + lastName +
+            "," + email + Environment.NewLine;
+
+        var dataFile = Server.MapPath("~/App_Data/data.txt");
+        string action = Request.Form["submit"];
+        if (action.IsEmpty())
+        {
+            result = "";
+        }
+        else if (action == "Create")
+        {
+            File.WriteAllText(@dataFile, userData);
+            result = "Record created.";
+        }
+        else if (action == "Append")
+        {
+            File.AppendAllText(@dataFile, userData);
+            result = "Record appended.";
+        }
+
+    }
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Write or append Data to a File</title>
+</head>
+<body>
+    <form id="form1" method="post">
+        <div>
+            <table>
+                <tr>
+                    <td>First Name:</td>
+                    <td><input id="FirstName" name="FirstName" type="text" /></td>
+
+                </tr>
+                <tr>
+                    <td>Last Name:</td>
+                    <td><input id="LastName" name="LastName" type="text" /></td>
+                </tr>
+                <tr>
+                    <td>Email:</td>
+                    <td><input id="Email" name="Email" type="text" /></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>
+                        <input type="submit" name="submit" value="Create" />
+                        <input type="submit" name="submit" value="Append" />
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div>
+            @if (result != "")
+            {
+                <p>Result: @result</p>
+            }
+        </div>
+    </form>
+</body>
+</html>
